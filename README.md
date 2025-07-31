@@ -33,13 +33,13 @@ A full-stack AI-powered chatbot integrated with live daily news. Built using the
 
 ```
 backend/
-├── config/           # Config files (.env, DB, Azure setup)
+├── config/           # Config files (.env, DB)
 ├── controllers/      # Request handlers
 ├── middleware/       # Auth, error handling
 ├── models/           # Mongoose models
 ├── routes/           # Express route files
-├── services/         # Azure, News API, GitHub integration
-├── utils/            # Helper functions
+├── services/         # Search Service
+├── utils/            # generateToken
 └── server.js         # Backend entry point
 ```
 
@@ -48,8 +48,8 @@ backend/
 ```
 Frontend/
 ├── components/       # Reusable UI components
-├── config/           # Constants, API URLs
-├── contexts/         # Theme or auth providers
+├── config/           # API URLs
+├── contexts/         # Theme Context
 ├── pages/            # Main views/pages
 ├── services/         # Axios calls to backend
 ├── store/            # Zustand state store
@@ -121,10 +121,10 @@ npm run dev
 ![Search Results Page](https://github.com/chakri8826/AiChaTBot-DailyNews/blob/ed5e986071f55b871487a145382c610c4fef9aba/Search%20Result.png)
 
 ### 📰 News Page
-![News Page]([./assets/news-page.png](https://github.com/chakri8826/AiChaTBot-DailyNews/blob/ed5e986071f55b871487a145382c610c4fef9aba/News%20Page.png))
+![News Page](https://github.com/chakri8826/AiChaTBot-DailyNews/blob/3a1c3f62e634d0ed1151ae0594a75b0c7f92f0c8/News%20Page.png)
 
 ### 📖 News Details Page
-![News Details Page]([./assets/news-details-page.png](https://github.com/chakri8826/AiChaTBot-DailyNews/blob/ed5e986071f55b871487a145382c610c4fef9aba/News%20Details%20Page.png))
+![News Details Page](https://github.com/chakri8826/AiChaTBot-DailyNews/blob/ed5e986071f55b871487a145382c610c4fef9aba/News%20Details%20Page.png)
 
 
 ---
