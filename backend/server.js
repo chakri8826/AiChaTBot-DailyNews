@@ -26,6 +26,10 @@ app.use(express.json());
 app.use(cookieParser());
 
 // API Routes
+app.get('/', (req, res) => {
+  res.send('Backend is running 🚀');
+});
+
 app.use('/api/auth', authRoutes);
 app.use('/api/search', searchRoutes);
 app.use('/api/news', newsRoutes);
