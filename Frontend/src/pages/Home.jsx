@@ -7,7 +7,7 @@ const Home = () => {
 
   return (
     <div 
-      className="min-h-screen flex flex-col items-center justify-center text-center px-4 transition-all duration-700 ease-in-out"
+      className="min-h-screen flex flex-col items-center justify-center text-center px-4 sm:px-6 lg:px-8 transition-all duration-700 ease-in-out"
       style={{
         backgroundColor: theme.colors.background,
         color: theme.colors.primary,
@@ -17,9 +17,8 @@ const Home = () => {
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
-        className="font-bold mb-6"
+        className="font-bold mb-4 sm:mb-6 lg:mb-8 responsive-heading leading-tight"
         style={{
-          fontSize: theme.fontSize['5xl'],
           color: theme.colors.primary,
         }}
       >
@@ -29,9 +28,8 @@ const Home = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.2 }}
-        className="font-medium mb-8 max-w-2xl"
+        className="font-medium mb-6 sm:mb-8 lg:mb-10 max-w-xs sm:max-w-sm md:max-w-lg lg:max-w-2xl px-2 sm:px-4 responsive-text leading-relaxed"
         style={{
-          fontSize: theme.fontSize.xl,
           color: theme.colors.secondary,
         }}
       >
@@ -41,15 +39,14 @@ const Home = () => {
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.8, delay: 0.4 }}
-        className="px-8 py-4 rounded-full font-semibold hover:shadow-lg transition-all duration-300 ease-in-out"
+        className="px-6 sm:px-8 lg:px-10 py-3 sm:py-4 lg:py-5 rounded-full font-semibold hover:shadow-lg transition-all duration-300 ease-in-out text-sm sm:text-base lg:text-lg w-full max-w-xs sm:max-w-sm md:max-w-md"
         style={{
           backgroundColor: theme.colors.accent,
           color: theme.colors.buttonPrimaryText,
-          fontSize: theme.fontSize.lg,
           borderRadius: theme.borderRadius.full,
           boxShadow: theme.colors.shadow,
         }}
-        onClick={() => window.location.href = '/login'} // Example navigation
+        onClick={() => window.location.href = '/login'}
       >
         Start Exploring
       </motion.button>

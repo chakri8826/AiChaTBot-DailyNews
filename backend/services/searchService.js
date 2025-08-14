@@ -8,17 +8,17 @@ const model = "openai/gpt-4.1";
 
 export async function performSearch(query) {
   try {
-    console.log('Starting search with query:', query);
-    
-    if (!token) {
-      console.error('GitHub token is not configured');
-      throw new Error('GitHub token is not configured');
-    }
-    
-    const client = ModelClient(
-      endpoint,
-      new AzureKeyCredential(token)
-    );
+      console.log('Starting search with query:', query);
+      
+      if (!token) {
+        console.error('GitHub token is not configured');
+        throw new Error('GitHub token is not configured');
+      }
+      
+      const client = ModelClient(
+        endpoint,
+        new AzureKeyCredential(token)
+      );
 
     const response = await client.path("/chat/completions").post({
       body: {

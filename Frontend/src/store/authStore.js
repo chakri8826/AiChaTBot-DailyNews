@@ -27,7 +27,7 @@ export const useAuthStore = create((set) => ({
   login: async (credentials) => {
     set({ isLoggingIn: true });
     try {
-      const response = await axios.post("http://localhost:5000/api/auth/login", credentials);
+      const response = await axios.post("/api/auth/login", credentials);
       set({ user: response.data, isLoggingIn: false });
       toast.success("Login successfull");
     } catch (error) {
@@ -51,7 +51,7 @@ export const useAuthStore = create((set) => ({
     try {
       console.log("Check")
       const response = await axios.get("/api/auth/authCheck");
-      set({ user: response.data, isCheckingAuth: false });
+      set({ user: response.data?.user || null, isCheckingAuth: false });
     } catch (error) {
       set({ isCheckingAuth: false, user: null });
     }

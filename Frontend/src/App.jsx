@@ -8,16 +8,13 @@ import SearchPage from './pages/SearchPage';
 import LoginPage from './pages/LoginPage';
 import SignUpPage from './pages/SignUpPage';
 import ProfilePage from './pages/ProfilePage';
-import AccountPage from './pages/AccountPage';
-import HistoryPage from './pages/HistoryPage';
-import SettingsPage from './pages/SettingsPage';
 import { useAuthStore } from './store/authStore';
 import {Loader} from 'lucide-react';
 import { Toaster } from "react-hot-toast";
 import NewsDetailPage from "./pages/NewsDetailPage";
 
 
-// Simple ProtectedRoute implementation
+// Simple ProtectedRoute implementation.
 function ProtectedRoute({ children }) {
   const { user, isCheckingAuth } = useAuthStore();
   const location = useLocation();
@@ -56,9 +53,6 @@ function App() {
         <Route path="/search" element={user ? <SearchPage /> : <Navigate to="/login" />} />
         <Route path="/discover" element={user ? <Discover /> : <Navigate to="/login" />} />
         <Route path="/profile" element={user ? <ProfilePage /> : <Navigate to="/login" />} />
-        <Route path="/account" element={user ? <AccountPage /> : <Navigate to="/login" />} />
-        <Route path="/history" element={user ? <HistoryPage /> : <Navigate to="/login" />} />
-        <Route path="/settings" element={user ? <SettingsPage /> : <Navigate to="/login" />} />
         <Route path="/news-detail" element={user ? <NewsDetailPage /> : <Navigate to="/login" />} />
       </Routes>
       <Toaster />

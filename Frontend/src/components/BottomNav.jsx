@@ -25,17 +25,17 @@ const BottomNav = () => {
         boxShadow: theme.colors.shadow,
       }}
     >
-      <div className="max-w-screen-xl mx-auto px-4">
-        <div className="flex justify-around items-center h-16">
+      <div className="max-w-screen-xl mx-auto px-2 sm:px-4">
+        <div className="flex justify-around items-center h-14 sm:h-16">
           {navItems.map((item) => (
             <NavLink
               key={item.path}
               to={item.path}
               className={({ isActive }) =>
-                `flex flex-col items-center justify-center w-full h-full transition-all duration-900
+                `flex flex-col items-center justify-center w-full h-full transition-all duration-300
                 ${isActive
-                  ? 'bg-opacity-80 bg-accent rounded-xl shadow text-accent font-bold scale-110'
-                  : 'text-secondary hover:bg-gray-100/10 hover:rounded-xl'}
+                  ? 'bg-opacity-80 bg-accent rounded-lg sm:rounded-xl shadow text-accent font-bold scale-105 sm:scale-110'
+                  : 'text-secondary hover:bg-gray-100/10 hover:rounded-lg sm:hover:rounded-xl'}
                 `
               }
               style={({ isActive }) => ({
@@ -45,12 +45,12 @@ const BottomNav = () => {
                 borderRadius: isActive ? theme.borderRadius.lg : undefined,
                 boxShadow: isActive ? theme.colors.shadow : undefined,
                 fontWeight: isActive ? 700 : 400,
-                transform: isActive ? 'scale(1.08)' : 'none',
+                transform: isActive ? 'scale(1.05)' : 'none',
                 transition: 'all 0.2s',
               })}
             >
-              <span className="text-xl">{item.icon}</span>
-              <span style={{ fontSize: theme.fontSize.xs }}>{item.label}</span>
+              <span className="text-lg sm:text-xl">{item.icon}</span>
+              <span className="text-xs sm:text-sm mt-1">{item.label}</span>
             </NavLink>
           ))}
         </div>

@@ -21,6 +21,7 @@ export const getNewsByCategory = async (req, res) => {
         apiKey: NEWS_API_KEY
       }
     });
+    console.log("News API Response:", response.data);
     res.json(response.data);
   } catch (error) {
     console.error('News API Error:', error.response?.data || error.message);

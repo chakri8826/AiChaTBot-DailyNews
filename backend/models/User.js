@@ -15,7 +15,6 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-
     searchHistory: {
         type: Array,
         default: []
