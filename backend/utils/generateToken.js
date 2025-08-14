@@ -16,4 +16,4 @@ export const generateTokenAndSetCookie = (userid, res) => {
     });
 
     return token;
-};  
+};

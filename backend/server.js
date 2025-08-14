@@ -17,7 +17,7 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: ['http://localhost:5173','https://aichatbot-dailynews-1.onrender.com'],
+  origin: ['http://localhost:5173', 'https://aichatbot-dailynews-1.onrender.com'],
   credentials: true
 }));
 
@@ -36,7 +36,7 @@ app.use('/api/news', newsRoutes);
 
 // Error handling middleware 
 app.use((err, req, res, next) => {
-  const statusCode = res.statusCode === 200 ? 500 : res.statusCode; 
+  const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
   res.status(statusCode);
   res.json({
     message: err.message,

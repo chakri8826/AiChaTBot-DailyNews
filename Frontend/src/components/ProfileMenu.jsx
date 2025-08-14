@@ -1,8 +1,17 @@
 import React, { useState } from 'react';
 import { FaUser, FaCog, FaSignOutAlt, FaMoon, FaSun, FaHistory, FaBookmark, FaBell } from 'react-icons/fa';
+import { useAuth } from '../hooks/useAuth';
+import { useAuthStore } from '../store/authStore';
+import { useNavigate } from 'react-router-dom';
 
 const ProfileMenu = ({ isDarkMode, onToggleDarkMode }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const { user, isAuthenticated, isLoading } = useAuth();
+  const { logout, isLoggingOut } = useAuthStore();
+  const navigate = useNavigate();
+
+  // Don't render if user is not authenticated or still loading
+  if (isLoading || !isAuthenticated) return null;
 
   const menuItems = [
     { icon: <FaUser />, label: 'Account', path: '/account' },
@@ -20,7 +29,7 @@ const ProfileMenu = ({ isDarkMode, onToggleDarkMode }) => {
         className="flex items-center space-x-2 p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
       >
         <img
-          src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix"
+          src={user?.image || `https://api.dicebear.com/7.x/avataaars/svg?seed=${user?.username || 'User'}`}
           alt="Profile"
           className="w-8 h-8 rounded-full border-2 border-primary"
         />
@@ -33,13 +42,13 @@ const ProfileMenu = ({ isDarkMode, onToggleDarkMode }) => {
           <div className="px-4 py-3 border-b border-gray-200 dark:border-gray-700">
             <div className="flex items-center space-x-3">
               <img
-                src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix"
+                src={user?.image || `https://api.dicebear.com/7.x/avataaars/svg?seed=${user?.username || 'User'}`}
                 alt="Profile"
                 className="w-12 h-12 rounded-full border-2 border-primary"
               />
               <div>
-                <h3 className="font-semibold text-gray-900 dark:text-white">John Doe</h3>
-                <p className="text-sm text-gray-500 dark:text-gray-400">john.doe@example.com</p>
+                <h3 className="font-semibold text-gray-900 dark:text-white">{user?.username || 'User'}</h3>
+                <p className="text-sm text-gray-500 dark:text-gray-400">{user?.email || 'No email'}</p>
               </div>
             </div>
           </div>
@@ -73,9 +82,17 @@ const ProfileMenu = ({ isDarkMode, onToggleDarkMode }) => {
 
           {/* Sign Out */}
           <div className="px-4 py-2 border-t border-gray-200 dark:border-gray-700">
-            <button className="flex items-center space-x-3 w-full text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors rounded px-2 py-1">
+            <button 
+              onClick={async () => {
+                await logout();
+                navigate('/login');
+                setIsOpen(false);
+              }}
+              disabled={isLoggingOut}
+              className="flex items-center space-x-3 w-full text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors rounded px-2 py-1"
+            >
               <FaSignOutAlt />
-              <span>Sign Out</span>
+              <span>{isLoggingOut ? 'Signing out...' : 'Sign Out'}</span>
             </button>
           </div>
         </div>

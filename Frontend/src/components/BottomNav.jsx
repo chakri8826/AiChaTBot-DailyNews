@@ -2,9 +2,14 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { FaSearch, FaCompass, FaHome, FaUser } from 'react-icons/fa';
 import { useTheme } from '../contexts/ThemeContext';
+import { useAuth } from '../hooks/useAuth';
 
 const BottomNav = () => {
   const theme = useTheme();
+  const { isAuthenticated, isLoading } = useAuth();
+
+  // Don't render if user is not authenticated or still loading
+  if (isLoading || !isAuthenticated) return null;
 
   const navItems = [
     { path: '/search', icon: <FaSearch />, label: 'Search' },

@@ -7,16 +7,18 @@ axios.defaults.withCredentials = true;
 
 
 export const useAuthStore = create((set) => ({
-  user: null,
+  user: JSON.parse(localStorage.getItem('user')) || null,
   isSigningUp: false,
-  isCheckingAuth: true,
+  isCheckingAuth: false, // Start as false since we have user from localStorage
   isLoggingOut: false,
   isLoggingIn: false,
   signup: async (credentials) => {
     set({ isSigningUp: true });
     try {
       const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000'}/api/auth/signup`, credentials);
-      set({ user: response.data, isSigningUp: false });
+      const userData = response.data;
+      localStorage.setItem('user', JSON.stringify(userData));
+      set({ user: userData, isSigningUp: false });
       toast.success("Account created successfully");
     } catch (error) {
       toast.error(error.response?.data?.message || "Signup failed");
@@ -28,7 +30,9 @@ export const useAuthStore = create((set) => ({
     set({ isLoggingIn: true });
     try {
       const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000'}/api/auth/login`, credentials);
-      set({ user: response.data, isLoggingIn: false });
+      const userData = response.data;
+      localStorage.setItem('user', JSON.stringify(userData));
+      set({ user: userData, isLoggingIn: false });
       toast.success("Login successfull");
     } catch (error) {
       set({ isLoggingIn: false, user: null });
@@ -39,6 +43,7 @@ export const useAuthStore = create((set) => ({
     set({ isLoggingOut: true });
     try {
       await axios.post(`${import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000'}/api/auth/logout`);
+      localStorage.removeItem('user');
       set({ user: null, isLoggingOut: false });
       toast.success("Logged out successfully");
     } catch (error) {
@@ -47,13 +52,37 @@ export const useAuthStore = create((set) => ({
     }
   },
   authCheck: async () => {
-    set({ isCheckingAuth: true });
+    // If we already have a user in localStorage, don't show loading
+    const existingUser = JSON.parse(localStorage.getItem('user'));
+    if (existingUser) {
+      set({ isCheckingAuth: false });
+    } else {
+      set({ isCheckingAuth: true });
+    }
+
     try {
-      console.log("Check")
+      console.log("Auth check started");
       const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000'}/api/auth/authCheck`);
-      set({ user: response.data?.user || null, isCheckingAuth: false });
+      console.log("Auth check response:", response.data);
+      if (response.data?.user) {
+        const userData = response.data.user;
+        localStorage.setItem('user', JSON.stringify(userData));
+        set({ user: userData, isCheckingAuth: false });
+      } else {
+        localStorage.removeItem('user');
+        set({ user: null, isCheckingAuth: false });
+      }
     } catch (error) {
-      set({ isCheckingAuth: false, user: null });
+      console.error("Auth check error:", error);
+      // If auth check fails but we have user in localStorage, keep the user
+      // This prevents logout on network errors
+      const existingUser = JSON.parse(localStorage.getItem('user'));
+      if (existingUser) {
+        set({ user: existingUser, isCheckingAuth: false });
+      } else {
+        localStorage.removeItem('user');
+        set({ user: null, isCheckingAuth: false });
+      }
     }
   },
 })); 

@@ -8,7 +8,7 @@ import SearchPage from './pages/SearchPage';
 import LoginPage from './pages/LoginPage';
 import SignUpPage from './pages/SignUpPage';
 import ProfilePage from './pages/ProfilePage';
-import { useAuthStore } from './store/authStore';
+import { useAuth } from './hooks/useAuth';
 import {Loader} from 'lucide-react';
 import { Toaster } from "react-hot-toast";
 import NewsDetailPage from "./pages/NewsDetailPage";
@@ -16,7 +16,7 @@ import NewsDetailPage from "./pages/NewsDetailPage";
 
 // Simple ProtectedRoute implementation.
 function ProtectedRoute({ children }) {
-  const { user, isCheckingAuth } = useAuthStore();
+  const { user, isCheckingAuth } = useAuth();
   const location = useLocation();
   if (isCheckingAuth) return null; // or a loading spinner
   if (!user) return <Navigate to="/login" state={{ from: location }} replace />;
@@ -26,15 +26,18 @@ function ProtectedRoute({ children }) {
 
 
 function App() {
-  const { user, isCheckingAuth, authCheck } = useAuthStore();
+  const { user, isLoading, authCheck } = useAuth();
   const { isDarkMode } = useTheme();
 
   useEffect(() => {
-    authCheck();
+    // Only run authCheck if we don't have a user already
+    if (!user) {
+      authCheck();
+    }
     // eslint-disable-next-line
   }, []);
 
-  if (isCheckingAuth) {
+  if (isLoading) {
     return (
       <div className="h-screen">
         <div className="flex justify-center items-center bg-black h-full">
@@ -50,10 +53,10 @@ function App() {
         <Route path="/" element={!user ? <Home /> : <Navigate to="/search" />} />
         <Route path="/login" element={!user ? <LoginPage /> : <Navigate to="/search" />} />
         <Route path="/signup" element={!user ? <SignUpPage /> : <Navigate to="/search" />} />
-        <Route path="/search" element={user ? <SearchPage /> : <Navigate to="/login" />} />
-        <Route path="/discover" element={user ? <Discover /> : <Navigate to="/login" />} />
-        <Route path="/profile" element={user ? <ProfilePage /> : <Navigate to="/login" />} />
-        <Route path="/news-detail" element={user ? <NewsDetailPage /> : <Navigate to="/login" />} />
+        <Route path="/search" element={<ProtectedRoute><SearchPage /></ProtectedRoute>} />
+        <Route path="/discover" element={<ProtectedRoute><Discover /></ProtectedRoute>} />
+        <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
+        <Route path="/news-detail" element={<ProtectedRoute><NewsDetailPage /></ProtectedRoute>} />
       </Routes>
       <Toaster />
       {/* Hover group for BottomNav */}
