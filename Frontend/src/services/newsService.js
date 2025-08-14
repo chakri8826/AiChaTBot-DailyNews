@@ -1,18 +1,18 @@
-const BASE_URL = 'http://localhost:5000/api/news';
+const BASE_URL = `${import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000'}/api/news`;
 
 export const fetchNewsByCategory = async (category) => {
   try {
     console.log('Fetching news for category:', category);
 
     const response = await fetch(`${BASE_URL}/category/${category}`);
-    
+
     if (!response.ok) {
       const errorData = await response.json();
       throw new Error(errorData.error || `Failed to fetch news: ${response.status}`);
     }
 
     const data = await response.json();
-    
+
     if (!data.articles || !Array.isArray(data.articles)) {
       throw new Error('Invalid response format from server');
     }

@@ -15,7 +15,7 @@ export const useAuthStore = create((set) => ({
   signup: async (credentials) => {
     set({ isSigningUp: true });
     try {
-      const response = await axios.post("/api/auth/signup", credentials);
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000'}/api/auth/signup`, credentials);
       set({ user: response.data, isSigningUp: false });
       toast.success("Account created successfully");
     } catch (error) {
@@ -27,7 +27,7 @@ export const useAuthStore = create((set) => ({
   login: async (credentials) => {
     set({ isLoggingIn: true });
     try {
-      const response = await axios.post("/api/auth/login", credentials);
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000'}/api/auth/login`, credentials);
       set({ user: response.data, isLoggingIn: false });
       toast.success("Login successfull");
     } catch (error) {
@@ -38,7 +38,7 @@ export const useAuthStore = create((set) => ({
   logout: async () => {
     set({ isLoggingOut: true });
     try {
-      await axios.post("/api/auth/logout");
+      await axios.post(`${import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000'}/api/auth/logout`);
       set({ user: null, isLoggingOut: false });
       toast.success("Logged out successfully");
     } catch (error) {
@@ -50,7 +50,7 @@ export const useAuthStore = create((set) => ({
     set({ isCheckingAuth: true });
     try {
       console.log("Check")
-      const response = await axios.get("/api/auth/authCheck");
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000'}/api/auth/authCheck`);
       set({ user: response.data?.user || null, isCheckingAuth: false });
     } catch (error) {
       set({ isCheckingAuth: false, user: null });
